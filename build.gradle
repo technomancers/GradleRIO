@@ -1,0 +1,33 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    extraLibs
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    extraLibs 'org.hidetake:groovy-ssh:2.7.0'
+    extraLibs 'commons-lang:commons-lang:2.6'
+    configurations.compile.extendsFrom(configurations.extraLibs)
+}
+
+group = "io.github.technomancers"
+version = "0.0.1"
+
+jar {
+    from { configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
