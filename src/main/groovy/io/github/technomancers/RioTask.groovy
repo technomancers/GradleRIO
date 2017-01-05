@@ -29,18 +29,20 @@ class RioTask extends DefaultTask{
                 host = rioHost
                 user = project.gradlerio.robotUser
                 password = project.gradlerio.robotPass
+								knownHosts = allowAnyHosts
             }
             rioElevated {
                 host = rioHost
                 user = project.gradlerio.robotElevatedUser
                 password = project.gradlerio.robotPass
+								knownHosts = allowAnyHosts
             }
         }
     }
 
     private String whichHost(){
         if (canConnect(project.gradlerio.rioHostName)){
-            return project.gradlerio.rioHostName
+						return InetAddress.getByName(project.gradlerio.rioHostName).getHostAddress()
         } else if (canConnect(project.gradlerio.rioStaticIP)){
             return project.gradlerio.rioStaticIP
         }else if (canConnect(project.gradlerio.rioIP)){
