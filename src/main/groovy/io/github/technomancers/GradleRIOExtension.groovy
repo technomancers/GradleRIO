@@ -18,6 +18,8 @@ class GradleRIOExtension{
     String ntVersion = '+'
     String wpiBranch = 'release'
     String robotUser = 'lvuser'
+    String robotElevatedUser = 'admin'
+    String robotNIGroup = 'ni'
     String robotPass
     String robotCommand
     String robotDebugCommand
@@ -27,6 +29,15 @@ class GradleRIOExtension{
     String debugArgs = '-XX:+UsePerfData -agentlib:jdwp=transport=dt_socket,address=5910,server=y,suspend=y'
     String robotCommandFile
     String robotDebugCommandFile 
+    String frcDebugFile = 'frcdebug'
+    String frcDebugDir = '/tmp/'
+    String finalCommand = 'sync'
+    String deployDir
+    String commandDeployDir
+    String killNetConsoleCommand = 'killall -q netconsole-host || :'
+    String robotKillCommand = '. /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r'
+    boolean dryRun = false
+    int timeout = 5 
 
     void setTeamNumber(String team){
         teamNumber = team == null ? '' : team
@@ -36,6 +47,24 @@ class GradleRIOExtension{
                 teamNumber = '0' + teamNumber
             }
         }
+    }
+
+    void setFrcDebugDir(String frc){
+        frcDebugDir = dirPath(frc)
+    }
+
+    String getFinalComman(){
+        if (finalCommand == null){
+            return ''
+        }
+        return finalCommand
+    }
+
+    String getDebugArgs(){
+        if (debugArgs == null){
+            return ''
+        }
+        return debugArgs
     }
 
     String getRobotClass(){
@@ -103,10 +132,46 @@ class GradleRIOExtension{
         return String.format(robotCommandFileTemplate, robotDebugCommandFilePartial)
     }
 
+    String getDeployDir(){
+        if (!isNullOrEmpty(deployDir)){
+            return deployDir
+        }
+        return "/home/${robotUser}/"
+    }
+
+    String getCommandDeployDir(){
+        if (!isNullOrEmpty(commandDeployDir)){
+            return commandDeployDir
+        }
+        return "/home/${robotUser}/"
+    }
+
+    int getTimeout(){
+        if (timeout == null || timeout == 0){
+            return 1
+        }
+        return timeout
+    }
+
+    boolean getDryRun(){
+        if (dryRun == null){
+            return false
+        }
+        return dryRun
+    }
+
     private static String cleanPath(String path){
         def last = path.substring(path.length() - 1)
         if (last == '/' || last == '\\'){
             return path.substring(0, path.length() - 2)
+        }
+        return path
+    }
+
+    private static String dirPath(String path){
+        def last = path.substring(path.length() - 1)
+        if (last != '/' && last != '\\'){
+            return "${path}/"
         }
         return path
     }
