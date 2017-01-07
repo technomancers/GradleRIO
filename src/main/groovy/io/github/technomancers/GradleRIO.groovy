@@ -65,7 +65,7 @@ class GradleRIO implements Plugin<Project> {
         }
         _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:desktop")
         _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:arm")
-        _project.dependencies.add('compile', "edu.wpi.first.wpilibj:wpilibJavaFinal:${_project.gradlerio.wpiVersion}")
+        _project.dependencies.add('compile', "edu.wpi.first.wpilibj:athena:${_project.gradlerio.wpiVersion}")
     }
 
     private void configureJar(){

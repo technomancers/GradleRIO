@@ -30,7 +30,7 @@ dependencies {
 }
 
 group = 'io.github.technomancers'
-version = '0.1.2'
+version = '0.1.5'
 
 jar {
     from { configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) } }
