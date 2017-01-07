@@ -12,7 +12,7 @@ A simple way to build and deploy your code for FRC RoboRIOs. Very simple to use 
 	* [Restart](#restart)
 	* [Reboot](#reboot)
 	* [Clean](#clean)
-* [Finding the RoboRIO](#finding_the_roborio)
+* [Finding the RoboRIO](#finding-the-roborio)
 * [Contributing](#contributing)
 
 ## Setup
