@@ -34,7 +34,7 @@ class RioTask extends DefaultTask{
             rioElevated {
                 host = rioHost
                 user = project.gradlerio.robotElevatedUser
-                password = project.gradlerio.robotPass
+                password = project.gradlerio.robotElevatedPass
 								knownHosts = allowAnyHosts
             }
         }

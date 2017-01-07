@@ -3,7 +3,7 @@ package io.github.technomancers
 class GradleRIOExtension{
     private final static String robotClassTemplate = 'org.usfirst.frc.team%s.Robot'
     private final static String hostNameTemplate = 'roboRIO-%s-frc.local'
-    private final static String robotCommandTemplate = 'env LD_LIBRARY_PATH=%s %s/netconsole-host %s/java %s -jar /home/%s/%s.jar'
+    private final static String robotCommandTemplate = 'env LD_LIBRARY_PATH=%s %s/netconsole-host %s/java %s -jar %s/%s.jar'
     private final static String robotCommandFileTemplate = 'robot%sCommand'
     private final static String robotDebugCommandFilePartial = 'Debug'
     final static String rioStaticIP = '172.22.11.2'
@@ -21,6 +21,7 @@ class GradleRIOExtension{
     String robotElevatedUser = 'admin'
     String robotNIGroup = 'ni'
     String robotPass
+		String robotElevatedPass
     String robotCommand
     String robotDebugCommand
     String netConsoleHostLocation = '/usr/local/frc/bin'
@@ -96,6 +97,14 @@ class GradleRIOExtension{
         return robotPass
     }
 
+		String getRobotElevatedPass(){
+        if (robotElevatedPass != null){
+            return robotElevatedPass
+        }
+        robotElevatedPass = ''
+        return robotElevatedPass
+    }
+
     void setNetConsoleHostLocation(String path){
         netConsoleHostLocation = cleanPath(path)
     }
@@ -108,14 +117,14 @@ class GradleRIOExtension{
         if (!isNullOrEmpty(robotCommand)){
             return robotCommand
         }
-        return String.format(robotCommandTemplate, ldLibraryPath, netConsoleHostLocation, javaLocation, '', robotUser, jarFileName)
+				return String.format(robotCommandTemplate, ldLibraryPath, netConsoleHostLocation, javaLocation, '', getDeployDir(), jarFileName)
     }
 
     String getRobotDebugCommand(){
         if (!isNullOrEmpty(robotDebugCommand)){
             return robotCommand
         }
-        return String.format(robotCommandTemplate, ldLibraryPath, netConsoleHostLocation, javaLocation, debugArgs, robotUser, jarFileName)
+        return String.format(robotCommandTemplate, ldLibraryPath, netConsoleHostLocation, javaLocation, debugArgs, getDeployDir(), jarFileName)
     }
 
     String getRobotCommandFile(){
