@@ -16,6 +16,8 @@ class GradleRIOExtension{
     String jarFileName = 'FRCUserProgram'
     String wpiVersion = '+'
     String ntVersion = '+'
+		String opencvVersion = '+'
+		String cscoreVersion = '+'
     String wpiBranch = 'release'
     String robotUser = 'lvuser'
     String robotElevatedUser = 'admin'

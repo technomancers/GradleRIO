@@ -66,6 +66,22 @@ class GradleRIO implements Plugin<Project> {
         _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:desktop")
         _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:arm")
         _project.dependencies.add('compile', "edu.wpi.first.wpilibj:athena:${_project.gradlerio.wpiVersion}")
+				_project.dependencies.add('compile', "edu.wpi.first.wpilibj:athena-jni:${_project.gradlerio.wpiVersion}")
+				_project.dependencies.add('compile', "edu.wpi.first.wpilib:athena-runtime:${_project.gradlerio.wpiVersion}@zip")
+				_project.dependencies.add('compile', "org.opencv:opencv-java:${_project.gradlerio.opencvVersion}")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-arm-raspbian")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-arm")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-x86")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-x86_64")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:osx-x86_64")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:windows-x86")
+				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:windows-x86_64")
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm-raspbian")
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm")
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm@zip")
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:armhf")
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:athena-uberzip@zip")
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:linux")
     }
 
     private void configureJar(){

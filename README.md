@@ -58,6 +58,10 @@ The following values can be placed in the `gradlerio` closure shown above. Most 
 	<dd>The version of WPILib to use. "+" means to use the latest available on the maven server.</dd>
 	<dt><strong>ntVersion</strong> (DEFAULT +)</dt>
 	<dd>The version of Network Tables to use. "+" means to use the latest available on the maven server.</dd>
+	<dt><strong>opencvVersion</strong> (DEFAULT +)</dt>
+	<dd>The version of OpenCV to use. "+" means to use the latest available on the maven server.</dd>
+	<dt><strong>cscoreVersion</strong> (DEFAULT +)</dt>
+	<dd>The version of CSCore to use. "+" means to use the latest available on the maven server.</dd>
 	<dt><strong>wpiBranch</strong> (DEFAULT release)</dt>
 	<dd>Which branch to use in maven to find the libraries on. Recommended to use release but you are welcome to change to a supported branch found <a href="http://wpilib.screenstepslive.com/s/4485/m/wpilib_source/l/480976-maven-artifacts">here</a>.</dd>
 	<dt><strong>robotUser</strong> (DEFAULT lvuser)</dt>
