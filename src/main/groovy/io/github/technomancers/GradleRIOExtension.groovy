@@ -3,7 +3,7 @@ package io.github.technomancers
 class GradleRIOExtension{
     private final static String robotClassTemplate = 'org.usfirst.frc.team%s.Robot'
     private final static String hostNameTemplate = 'roboRIO-%s-frc.local'
-    private final static String robotCommandTemplate = 'env LD_LIBRARY_PATH=%s %s/netconsole-host %s/java %s -jar %s/%s.jar'
+    private final static String robotCommandTemplate = 'env LD_LIBRARY_PATH=%s %s/netconsole-host %s/java %s -jar %s%s.jar'
     private final static String robotCommandFileTemplate = 'robot%sCommand'
     private final static String robotDebugCommandFilePartial = 'Debug'
     final static String rioStaticIP = '172.22.11.2'
