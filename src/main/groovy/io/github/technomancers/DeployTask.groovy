@@ -155,6 +155,11 @@ class DeployTask extends RioTask{
 				execute "chmod -R +x ${project.gradlerio.ldLibraryPath}", timeoutSec: project.gradlerio.timeout
 			}
 		}
+		ssh.run {
+			session(ssh.remotes.rioElevated){
+				execute "ldconfig", timeoutSec: project.gradlerio.timeout
+			}
+		}
 	}
 
 	private void filePermissions(){
