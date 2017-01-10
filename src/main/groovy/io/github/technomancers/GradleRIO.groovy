@@ -2,7 +2,6 @@ package io.github.technomancers
 
 import org.gradle.api.*
 import groovy.util.*
-import org.apache.commons.lang3.StringUtils
 
 class GradleRIO implements Plugin<Project> {
 	private Project _project
@@ -57,7 +56,7 @@ class GradleRIO implements Plugin<Project> {
 
 		missingProperties.eachWithIndex{ prop, idx -> missingProperties[idx] = 'gradlerio.' + prop }
 		if (missingProperties.size() > 0){
-			throw new plugins.PluginInstantiationException('Must supply these properties: ' + StringUtils.join(missingProperties, ','))
+			throw new plugins.PluginInstantiationException('Must supply these properties: ' + missingProperties.join(','))
 		}
 	}
 

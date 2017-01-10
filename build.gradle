@@ -25,12 +25,11 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
     compile 'org.hidetake:groovy-ssh:2.7.0'
-    compile 'org.apache.commons:commons-lang3:3.5'
     configurations.compile.extendsFrom(configurations.extraLibs)
 }
 
 group = 'io.github.technomancers'
-version = '0.1.9'
+version = '0.1.10'
 
 jar {
     from { configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) } }

@@ -19,11 +19,13 @@ class DeployTask extends RioTask{
 			case deployDep:
 				getLibraries()
 				scpLibraries()
+				scpNetConsoleHost()
 				break;
 			default:
 				getLibraries()
-				scpLibraries()
 				makeFiles()
+				scpLibraries()
+				scpNetConsoleHost()
 				scpFiles()
 				restartCommands()
 				break;
@@ -135,11 +137,22 @@ class DeployTask extends RioTask{
 		libraryPermissions()
 	}
 
+	private void scpNetConsoleHost(){
+		project.logger.info('Sending NetConsole-Host.')
+		def f = new File('launch/netconsole-host')
+		ssh.run{
+			session(ssh.remotes.rioElevated){
+				put from: f, into: "${project.gradlerio.netConsoleHostLocation}"
+			}
+		}
+		netConsoleHostPermissions()
+	}
+
 	private void libraryPermissions(){
 		project.logger.info('Changing library permissions.')
 		ssh.run{
 			session(ssh.remotes.rioElevated){
-				execute "chmod -R +x ${project.gradlerio.ldLibraryPath}"
+				execute "chmod -R +x ${project.gradlerio.ldLibraryPath}", timeoutSec: project.gradlerio.timeout
 			}
 		}
 	}
@@ -156,6 +169,15 @@ class DeployTask extends RioTask{
 				session(ssh.remotes.rioElevated){
 					execute "chown ${project.gradlerio.robotUser}:${project.gradlerio.robotNIGroup} ${project.gradlerio.frcDebugDir}" + getDebugFileName(), timeoutSec: project.gradlerio.timeout
 				}
+			}
+		}
+	}
+
+	private void netConsoleHostPermissions(){
+		project.logger.info('Changing netconsole-host permissions.')
+		ssh.run {
+			session(ssh.remotes.rioElevated){
+				execute "chmod +x ${project.gradlerio.netConsoleHostLocation}netconsole-host", timeoutSec: project.gradlerio.timeout
 			}
 		}
 	}
