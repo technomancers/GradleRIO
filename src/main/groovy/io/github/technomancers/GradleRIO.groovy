@@ -65,7 +65,7 @@ class GradleRIO implements Plugin<Project> {
             it.name = 'WPI'
             it.url = "http://first.wpi.edu/FRC/roborio/maven/${_project.gradlerio.wpiBranch}"
         }
-				def riolibs = project.getConfigurations().maybeCreate('riolibs')
+				def riolibs = _project.getConfigurations().maybeCreate('riolibs')
         _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:arm") //needed
 				_project.dependencies.add('compile', "org.opencv:opencv-java:${_project.gradlerio.opencvVersion}") //needed
 				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm") //needed
