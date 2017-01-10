@@ -30,6 +30,8 @@ class GradleRIO implements Plugin<Project> {
             jarFileName: _project.gradlerio.jarFileName,
             ntVersion: _project.gradlerio.ntVersion,
             wpiVersion: _project.gradlerio.wpiVersion,
+						opencvVersion: _project.gradlerio.opencvVersion,
+						cscoreVersion: _project.gradlerio.cscoreVersion,
             wpiBranch: _project.gradlerio.wpiBranch,
             robotUser: _project.gradlerio.robotUser,
             robotElevatedUser: _project.gradlerio.robotElevatedUser,
@@ -63,25 +65,15 @@ class GradleRIO implements Plugin<Project> {
             it.name = 'WPI'
             it.url = "http://first.wpi.edu/FRC/roborio/maven/${_project.gradlerio.wpiBranch}"
         }
-        _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:desktop")
-        _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:arm")
-        _project.dependencies.add('compile', "edu.wpi.first.wpilibj:athena:${_project.gradlerio.wpiVersion}")
-				_project.dependencies.add('compile', "edu.wpi.first.wpilibj:athena-jni:${_project.gradlerio.wpiVersion}")
-				_project.dependencies.add('compile', "edu.wpi.first.wpilib:athena-runtime:${_project.gradlerio.wpiVersion}@zip")
-				_project.dependencies.add('compile', "org.opencv:opencv-java:${_project.gradlerio.opencvVersion}")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-arm-raspbian")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-arm")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-x86")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-x86_64")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:osx-x86_64")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:windows-x86")
-				_project.dependencies.add('compile', "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:windows-x86_64")
-				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm-raspbian")
-				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm")
-				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm@zip")
-				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:armhf")
-				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:athena-uberzip@zip")
-				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:linux")
+				def riolibs = project.getConfigurations().maybeCreate('riolibs')
+        _project.dependencies.add('compile', "edu.wpi.first.wpilib.networktables.java:NetworkTables:${_project.gradlerio.ntVersion}:arm") //needed
+				_project.dependencies.add('compile', "org.opencv:opencv-java:${_project.gradlerio.opencvVersion}") //needed
+				_project.dependencies.add('compile', "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:arm") //needed
+        _project.dependencies.add('compile', "edu.wpi.first.wpilibj:athena:${_project.gradlerio.wpiVersion}") //needed
+				_project.dependencies.add(riolibs.name, "edu.wpi.first.wpilibj:athena-jni:${_project.gradlerio.wpiVersion}") //ld libwpilibJavaJNI.so and .debug in lib after extraction
+				_project.dependencies.add(riolibs.name, "edu.wpi.first.wpilib:athena-runtime:${_project.gradlerio.wpiVersion}@zip") //ld libHALAthena.so libntcore.so libwpiutil.so and .debug in lib after extraction
+				_project.dependencies.add(riolibs.name, "org.opencv:opencv-jni:${_project.gradlerio.opencvVersion}:linux-arm") //ld libopencv_java310.so in root
+				_project.dependencies.add(riolibs.name, "edu.wpi.cscore.java:cscore:${_project.gradlerio.cscoreVersion}:athena-uberzip@zip")//ld all ending in .3.1 and libcscore.so
     }
 
     private void configureJar(){

@@ -3,7 +3,7 @@ package io.github.technomancers
 class GradleRIOExtension{
     private final static String robotClassTemplate = 'org.usfirst.frc.team%s.Robot'
     private final static String hostNameTemplate = 'roboRIO-%s-frc.local'
-    private final static String robotCommandTemplate = 'env LD_LIBRARY_PATH=%s %s/netconsole-host %s/java %s -jar %s%s.jar'
+		private final static String robotCommandTemplate = '%snetconsole-host %sjava -Djava.library.path=%s -jar %s%s%s.jar'
     private final static String robotCommandFileTemplate = 'robot%sCommand'
     private final static String robotDebugCommandFilePartial = 'Debug'
     final static String rioStaticIP = '172.22.11.2'
@@ -26,10 +26,10 @@ class GradleRIOExtension{
 		String robotElevatedPass
     String robotCommand
     String robotDebugCommand
-    String netConsoleHostLocation = '/usr/local/frc/bin'
-    String javaLocation = '/usr/local/frc/JRE/bin'
-    String ldLibraryPath = '/usr/local/frc/rpath-lib/'
-    String debugArgs = '-XX:+UsePerfData -agentlib:jdwp=transport=dt_socket,address=5910,server=y,suspend=y'
+    String netConsoleHostLocation = '/usr/local/frc/bin/'
+    String javaLocation = '/usr/local/frc/JRE/bin/'
+    String ldLibraryPath = '/usr/local/frc/lib/'
+    String debugArgs = '-XX:+UsePerfData -agentlib:jdwp=transport=dt_socket,address=8348,server=y,suspend=y'
     String robotCommandFile
     String robotDebugCommandFile 
     String frcDebugFile = 'frcdebug'
@@ -108,25 +108,38 @@ class GradleRIOExtension{
     }
 
     void setNetConsoleHostLocation(String path){
-        netConsoleHostLocation = cleanPath(path)
+        netConsoleHostLocation = dirPath(path)
     }
 
     void setJavaLocation(String path){
-        javaLocation = cleanPath(path)
+        javaLocation = dirPath(path)
     }
+
+		void setLdLibraryPath(String path){
+			ldLibraryPath = dirPath(path)
+		}
+
+		void setJarFileName(String file){
+			f = file.split('.')
+			if (f.size() > 1 && f.getAt(f.size() - 1)){
+				jarFileName = f.take(f.size() -1).join('.')
+			}else{
+				jarFileName = file
+			}
+		}
 
     String getRobotCommand(){
         if (!isNullOrEmpty(robotCommand)){
             return robotCommand
         }
-				return String.format(robotCommandTemplate, ldLibraryPath, netConsoleHostLocation, javaLocation, '', getDeployDir(), jarFileName)
+				return String.format(robotCommandTemplate, netConsoleHostLocation, javaLocation, ldLibraryPath, '', getDeployDir(), jarFileName)
     }
 
     String getRobotDebugCommand(){
         if (!isNullOrEmpty(robotDebugCommand)){
             return robotCommand
         }
-        return String.format(robotCommandTemplate, ldLibraryPath, netConsoleHostLocation, javaLocation, debugArgs, getDeployDir(), jarFileName)
+        return String.format(robotCommandTemplate, netConsoleHostLocation, javaLocation, ldLibraryPath, debugArgs + ' ', getDeployDir(), jarFileName)
     }
 
     String getRobotCommandFile(){
@@ -143,12 +156,20 @@ class GradleRIOExtension{
         return String.format(robotCommandFileTemplate, robotDebugCommandFilePartial)
     }
 
+		void setDeployDir(String dir){
+			deployDir = dirPath(dir)
+		}
+
     String getDeployDir(){
         if (!isNullOrEmpty(deployDir)){
             return deployDir
         }
         return "/home/${robotUser}/"
     }
+
+		void setCommandDeployDir(String dir){
+			deployDir = dirPath(dir)
+		}
 
     String getCommandDeployDir(){
         if (!isNullOrEmpty(commandDeployDir)){
@@ -169,14 +190,6 @@ class GradleRIOExtension{
             return false
         }
         return dryRun
-    }
-
-    private static String cleanPath(String path){
-        def last = path.substring(path.length() - 1)
-        if (last == '/' || last == '\\'){
-            return path.substring(0, path.length() - 2)
-        }
-        return path
     }
 
     private static String dirPath(String path){

@@ -45,18 +45,18 @@ class DeployTask extends RioTask{
         //https://github.com/technomancers/archive2016/blob/master/java/current/ant/build.xml#L201
         ssh.run{
             session(ssh.remotes.rio){
-                execute "${project.gradlerio.javaLocation}/java -version", timeoutSec: project.gradlerio.timeout
+                execute "${project.gradlerio.javaLocation}java -version", timeoutSec: project.gradlerio.timeout
             }
         }
     }
 
     private void makeFiles(){
         project.logger.info('Creating robot command files.')
-        def commandFile = new File(temporaryDir.path + getFileName())
+        def commandFile = new File(temporaryDir.path + '/' + getFileName())
         switch (type) {
             case debug: 
                 commandFile.text = "${project.gradlerio.robotDebugCommand}\n";
-                def debugFile = new File(temporaryDir.path + getDebugFileName())
+                def debugFile = new File(temporaryDir.path + '/' + getDebugFileName())
                 debugFile.text = '# This file is used as a flag to determine if debugging should be used.\n# It is uploaded to the robot when launched in debug mode and should be removed automatically once used.'
                 break;
             default: 
