@@ -24,7 +24,7 @@ configurations {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    extraLibs 'org.hidetake:groovy-ssh:2.7.0'
+    compile 'org.hidetake:groovy-ssh:2.7.0'
     configurations.compile.extendsFrom(configurations.extraLibs)
 }
 

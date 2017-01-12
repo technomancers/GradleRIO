@@ -36,6 +36,7 @@ class GradleRIO implements Plugin<Project> {
 			robotUser: _project.gradlerio.robotUser,
 			robotElevatedUser: _project.gradlerio.robotElevatedUser,
 			netConsoleHostLocation: _project.gradlerio.netConsoleHostLocation,
+			netConsoleHostFileName: _project.gradlerio.netConsoleHostFileName,
 			javaLocation: _project.gradlerio.javaLocation,
 			ldLibraryPath: _project.gradlerio.ldLibraryPath,
 			frcDebugFile: _project.gradlerio.frcDebugFile,

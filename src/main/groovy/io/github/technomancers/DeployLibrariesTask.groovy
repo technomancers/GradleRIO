@@ -17,10 +17,6 @@ class DeployLibrariesTask extends RioTask{
 		this.libFiles = project.files(libDir);
 	}
 
-	public void libDir(File libDir){
-		this.libFiles = project.files(libDir);
-	}
-
 	@tasks.TaskAction
 	void deploy(){
 		ssh.run{

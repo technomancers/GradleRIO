@@ -15,7 +15,6 @@ class RioTask extends DefaultTask{
 		}else{
 			rioHost = '127.0.0.1'
 		}
-		project.logger.info("Resolved RoboRIO location to $rioHost")
 		configureRioSSH()
 	}
 

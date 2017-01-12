@@ -17,10 +17,6 @@ class DeployNetConsoleHostTask extends RioTask{
 		this.netConsoleHostFile = task.file;
 	}
 
-	public void file(File file){
-		this.netConsoleHostFile = file;
-	}
-
 	@tasks.TaskAction
 	void deploy(){
 		ssh.run{
@@ -30,7 +26,7 @@ class DeployNetConsoleHostTask extends RioTask{
 		}
 		ssh.run {
 			session(ssh.remotes.rioElevated){
-				execute "chmod +x ${project.gradlerio.netConsoleHostLocation}netconsole-host", timeoutSec: project.gradlerio.timeout
+				execute "chmod +x ${project.gradlerio.netConsoleHostLocation}${project.gradlerio.netConsoleHostFileName}", timeoutSec: project.gradlerio.timeout
 			}
 		}
 	}

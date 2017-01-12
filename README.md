@@ -76,15 +76,17 @@ The following values can be placed in the `gradlerio` closure shown above. Most 
 	<dd>The password used for robotElevatedUser.</dd>
 	<dt><strong>netConsoleHostLocation</strong> (DEAFULT /usr/local/frc/bin)</dt>
 	<dd>The location to find the netconsole-host command on the RoboRIO.</dd>
+	<dt><strong>netConsoleHostFileName</strong> (DEAFULT netconsole-host)</dt>
+	<dd>The name of the Net Console Host file.</dd>
 	<dt><strong>javaLocation</strong> (DEFAULT /usr/local/frc/JRE/bin)</dt>
 	<dd>The location to find the java command on the RoboRIO.</dd>
 	<dt><strong>ldLibraryPath</strong> (DEFAULT /usr/local/frc/rpath-lib/)</dt>
 	<dd>Paths to include that your code needs to run. Don't change unless you know what this will do.</dd>
 	<dt><strong>debugArgs</strong> (DEFAULT -XX:+UsePerfData -agentlib:jdwp=transport=dt_socket,address=5910,server=y,suspend=y)</dt>
 	<dd>The debug args to include in the command file when running in debug mode.</dd>
-	<dt><strong>robotCommand</strong> (DEAFULT env LD_LIBRARY_PATH=&lt;ldLibraryPath&gt; &lt;netConsoleHostLocation&gt;/netconsole-host &lt;javaLocation&gt;/java -jar &lt;deployDir&gt;&lt;jarFileName&gt;.jar)</dt>
+	<dt><strong>robotCommand</strong> (DEAFULT env LD_LIBRARY_PATH=&lt;ldLibraryPath&gt; &lt;netConsoleHostLocation&gt;&lt;netConsoleHostFileName&gt; &lt;javaLocation&gt;/java -jar &lt;deployDir&gt;&lt;jarFileName&gt;.jar)</dt>
 	<dd>The command that is ran when the RoboRIO is starting to run your program.</dd>
-	<dt><strong>robotDebugCommand</strong> (DEAFULT env LD_LIBRARY_PATH=&lt;ldLibraryPath&gt; &lt;netConsoleHostLocation&gt;/netconsole-host &lt;javaLocation&gt;/java &lt;debugArgs&gt; -jar &lt;deployDir&gt;&lt;jarFileName&gt;.jar)</dt>
+	<dt><strong>robotDebugCommand</strong> (DEAFULT env LD_LIBRARY_PATH=&lt;ldLibraryPath&gt; &lt;netConsoleHostLocation&gt;&lt;netConsoleHostFileName&gt; &lt;javaLocation&gt;/java &lt;debugArgs&gt; -jar &lt;deployDir&gt;&lt;jarFileName&gt;.jar)</dt>
 	<dd>The command that is ran when the RoboRIO is starting to run your program in debug mode.</dd>
 	<dt><strong>robotCommandFile</strong> (DEFAULT robotCommand)</dt>
 	<dd>The name of the robot command file. Don't change unless you know what this will do.</dd>
@@ -100,7 +102,7 @@ The following values can be placed in the `gradlerio` closure shown above. Most 
 	<dd>The directory to deploy your code to on the RoboRIO.</dd>
 	<dt><strong>commandDeployDir</strong> (DEAFULT /home/&lt;robotUser&gt;/)</dt>
 	<dd>The directory to deploy the command file to.</dd>
-	<dt><strong>killNetConsoleCommand</strong> (DEFAULT killall -q netconsole-host || :)</dt>
+	<dt><strong>killNetConsoleCommand</strong> (DEFAULT killall -q &lt;netConsoleHostFileName&gt; || :)</dt>
 	<dd>The command used to kill netconsole-host.</dd>
 	<dt><strong>robotKillCommand</strong> (DEFAULT . /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r)</dt>
 	<dd>The command that will restart the RoboRIO and re-run the code. Don't change unless you know what this will do.</dd>
