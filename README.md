@@ -22,7 +22,7 @@ You will need to create a file named `build.gradle`. The following is an example
 ```groovy
 //This imports the GradleRIO plugin to use for this project
 plugins {
-	id "io.github.technomancers.gradlerio" version "0.1.9"
+	id "io.github.technomancers.gradlerio" version "0.1.13"
 }
 //Includes useful tasks to allow you to create an environment that Eclipse can use.
 apply plugin: 'eclipse'
