@@ -12,15 +12,16 @@ class DeployTask extends DeployJarTask{
 	public void file(Task task){
 		this.deployCommand = task.file
 	}
+	
 	@tasks.TaskAction
 	void deploy() {
-		ssh.run {
-			session(ssh.remotes.rio){
+		sshService.run {
+			session(sshService.remotes.rio){
 				put from: deployCommand, into: project.gradlerio.commandDeployDir + project.gradlerio.robotCommandFile
 			}
 		}
-		ssh.run {
-			session(ssh.remotes.rioElevated){
+		sshService.run {
+			session(sshService.remotes.rioElevated){
 				execute "chmod +x ${project.gradlerio.commandDeployDir}${project.gradlerio.robotCommandFile}", timeoutSec: project.gradlerio.timeout
 			}
 		}

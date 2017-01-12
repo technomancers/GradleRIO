@@ -3,8 +3,9 @@ package io.github.technomancers
 import org.gradle.api.*
 import groovy.util.*
 
-class DeployLibrariesTask extends RioTask{
+class DeployLibrariesTask extends DefaultTask{
 	private file.FileCollection libFiles = project.files()
+	def sshService
 
 	@tasks.SkipWhenEmpty
 	@tasks.InputFiles
@@ -13,24 +14,28 @@ class DeployLibrariesTask extends RioTask{
 		return this.libFiles
 	}
 
-	public void libDir(Task libDir){
+	public void libDir(GetLibrariesTask libDir){
 		this.libFiles = project.files(libDir);
+	}
+
+	public void ssh(RioTask task){
+		sshService = task.ssh
 	}
 
 	@tasks.TaskAction
 	void deploy(){
-		ssh.run{
-			session(ssh.remotes.rioElevated){
+		sshService.run{
+			session(sshService.remotes.rioElevated){
 				put from: libFiles, into: "${project.gradlerio.ldLibraryPath}"
 			}
 		}
-		ssh.run{
-			session(ssh.remotes.rioElevated){
+		sshService.run{
+			session(sshService.remotes.rioElevated){
 				execute "chmod -R +x ${project.gradlerio.ldLibraryPath}", timeoutSec: project.gradlerio.timeout
 			}
 		}
-		ssh.run {
-			session(ssh.remotes.rioElevated){
+		sshService.run {
+			session(sshService.remotes.rioElevated){
 				execute "ldconfig", timeoutSec: project.gradlerio.timeout
 			}
 		}

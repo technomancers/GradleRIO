@@ -3,8 +3,9 @@ package io.github.technomancers
 import org.gradle.api.*
 import groovy.util.*
 
-class DeployNetConsoleHostTask extends RioTask{
+class DeployNetConsoleHostTask extends DefaultTask{
 	private File netConsoleHostFile
+	def sshService
 
 	@tasks.SkipWhenEmpty
 	@tasks.InputFile
@@ -13,19 +14,23 @@ class DeployNetConsoleHostTask extends RioTask{
 		return this.netConsoleHostFile
 	}
 
-	public void file(Task task){
+	public void file(MakeNetConsoleHostTask task){
 		this.netConsoleHostFile = task.file;
+	}
+
+	public void ssh(RioTask task){
+		sshService = task.ssh
 	}
 
 	@tasks.TaskAction
 	void deploy(){
-		ssh.run{
-			session(ssh.remotes.rioElevated){
+		sshService.run{
+			session(sshService.remotes.rioElevated){
 				put from: netConsoleHostFile, into: "${project.gradlerio.netConsoleHostLocation}"
 			}
 		}
-		ssh.run {
-			session(ssh.remotes.rioElevated){
+		sshService.run {
+			session(sshService.remotes.rioElevated){
 				execute "chmod +x ${project.gradlerio.netConsoleHostLocation}${project.gradlerio.netConsoleHostFileName}", timeoutSec: project.gradlerio.timeout
 			}
 		}

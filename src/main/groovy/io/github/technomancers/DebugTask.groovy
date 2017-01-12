@@ -14,26 +14,26 @@ class DebugTask extends DeployJarTask{
 	@tasks.PathSensitive(tasks.PathSensitivity.NONE)
 	File debugFile
 
-	public void files(Task task){
+	public void files(MakeDebugFilesTask task){
 		this.debugCommand = task.debugCommand
 		this.debugFile = task.debugFile
 	}
 
 	@tasks.TaskAction
 	void deploy(){
-		ssh.run {
-			session(ssh.remotes.rio){
+		sshService.run {
+			session(sshService.remotes.rio){
 				put from: debugCommand, into: project.gradlerio.commandDeployDir + project.gradlerio.robotDebugCommandFile
 			}
-			session(ssh.remotes.rio){
+			session(sshService.remotes.rio){
 				put from: debugFile, into: project.gradlerio.frcDebugDir + project.gradlerio.frcDebugFile
 			}
 		}
-		ssh.run {
-			session(ssh.remotes.rioElevated){
+		sshService.run {
+			session(sshService.remotes.rioElevated){
 				execute "chmod +x ${project.gradlerio.commandDeployDir}${project.gradlerio.robotDebugCommandFile}", timeoutSec: project.gradlerio.timeout
 			}
-			session(ssh.remotes.rioElevated){
+			session(sshService.remotes.rioElevated){
 				execute "chown ${project.gradlerio.robotUser}:${project.gradlerio.robotNIGroup} ${project.gradlerio.frcDebugDir}${project.gradlerio.frcDebugFile}", timeoutSec: project.gradlerio.timeout
 			}
 		}
