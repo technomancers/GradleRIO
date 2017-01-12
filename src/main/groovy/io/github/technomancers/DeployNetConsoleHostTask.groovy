@@ -26,7 +26,7 @@ class DeployNetConsoleHostTask extends DefaultTask{
 	void deploy(){
 		sshService.run{
 			session(sshService.remotes.rioElevated){
-				put from: netConsoleHostFile, into: "${project.gradlerio.netConsoleHostLocation}"
+				put from: netConsoleHostFile, into: "${project.gradlerio.netConsoleHostLocation}${project.gradlerio.netConsoleHostFileName}"
 			}
 		}
 		sshService.run {

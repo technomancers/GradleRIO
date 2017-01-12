@@ -60,7 +60,7 @@ class TaskRIO {
 			file makeDeployFileTask
 			ssh connectTask
 		}
-		deployTask.dependsOn 'build', deployLibTask, deployNetConsoleHostTask, makeDeployFileTask, connectTask
+		deployTask.dependsOn 'build', makeDeployFileTask, connectTask
 		deployTask.description 'Build and Deploy code to the RoboRIO then restart the robot.'
 		deployTask.group 'RoboRIO'
 		deployTask.finalizedBy(restartTask)
@@ -69,7 +69,7 @@ class TaskRIO {
 			files makeDebugFilesTask
 			ssh connectTask
 		}
-		debugTask.dependsOn 'build', deployLibTask, deployNetConsoleHostTask, makeDebugFilesTask, connectTask
+		debugTask.dependsOn 'build', makeDebugFilesTask, connectTask
 		debugTask.description 'Build and Deploy code in debug mode to the RoboRIO then restart the robot.'
 		debugTask.group 'RoboRIO'
 		debugTask.finalizedBy(restartTask)

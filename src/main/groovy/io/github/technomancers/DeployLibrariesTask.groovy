@@ -26,7 +26,7 @@ class DeployLibrariesTask extends DefaultTask{
 	void deploy(){
 		sshService.run{
 			session(sshService.remotes.rioElevated){
-				put from: libFiles, into: "${project.gradlerio.ldLibraryPath}"
+				put from: libFiles.files, into: "${project.gradlerio.ldLibraryPath}"
 			}
 		}
 		sshService.run{
