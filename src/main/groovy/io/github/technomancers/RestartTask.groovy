@@ -13,11 +13,6 @@ class RestartTask extends DefaultTask{
 	@tasks.TaskAction
 	void restart(){
 		sshService.run {
-			session(sshService.remotes.rioElevated){
-				execute project.gradlerio.killNetConsoleCommand, ignoreError: true, timeoutSec: project.gradlerio.timeout
-			}
-		}
-		sshService.run {
 			session(sshService.remotes.rio){
 				execute project.gradlerio.robotKillCommand, ignoreError: true, timeoutSec: project.gradlerio.timeout
 			}

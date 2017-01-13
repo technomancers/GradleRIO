@@ -14,6 +14,11 @@ class TaskRIO {
 	void configureTasks(){
 		def connectTask = _project.task('connect', type: RioTask)
 
+		def killNetConsoleHostTask = _project.task('killNetConsoleHost', type: KillNetConsoleHostTask){
+			ssh connectTask
+		}
+		killNetConsoleHostTask.dependsOn connectTask
+
 		def rebootTask = _project.task('reboot', type: RebootTask){
 			ssh connectTask
 		}
@@ -24,7 +29,8 @@ class TaskRIO {
 		def restartTask = _project.task('restart', type: RestartTask){
 			ssh connectTask
 		}
-		restartTask.dependsOn connectTask
+		restartTask.dependsOn connectTask, killNetConsoleHostTask
+		restartTask.mustRunAfter 'deploy', 'debug'
 		restartTask.description 'Restart the RoboRIO\'s code base.'
 		restartTask.group 'RoboRIO' 
 		
@@ -34,7 +40,7 @@ class TaskRIO {
 			file makeNetConsoleHostTask
 			ssh connectTask
 		}
-		deployNetConsoleHostTask.dependsOn makeNetConsoleHostTask, connectTask
+		deployNetConsoleHostTask.dependsOn makeNetConsoleHostTask, connectTask, killNetConsoleHostTask
 		deployNetConsoleHostTask.description 'Deploys netconsole-host to the RoboRIO.'
 		deployNetConsoleHostTask.group 'RoboRIO'
 
@@ -61,6 +67,7 @@ class TaskRIO {
 			ssh connectTask
 		}
 		deployTask.dependsOn 'build', makeDeployFileTask, connectTask
+		deployTask.mustRunAfter deployLibTask, deployNetConsoleHostTask
 		deployTask.description 'Build and Deploy code to the RoboRIO then restart the robot.'
 		deployTask.group 'RoboRIO'
 		deployTask.finalizedBy(restartTask)
@@ -70,6 +77,7 @@ class TaskRIO {
 			ssh connectTask
 		}
 		debugTask.dependsOn 'build', makeDebugFilesTask, connectTask
+		debugTask.mustRunAfter deployLibTask, deployNetConsoleHostTask
 		debugTask.description 'Build and Deploy code in debug mode to the RoboRIO then restart the robot.'
 		debugTask.group 'RoboRIO'
 		debugTask.finalizedBy(restartTask)
