@@ -31,6 +31,11 @@ class DeployLibrariesTask extends DefaultTask{
 		}
 		sshService.run{
 			session(sshService.remotes.rioElevated){
+				execute "mv ${project.gradlerio.ldLibraryPath}lib/* ${project.gradlerio.ldLibraryPath}.; rm -r ${project.gradlerio.ldLibraryPath}lib"
+			}
+		}
+		sshService.run{
+			session(sshService.remotes.rioElevated){
 				execute "chmod -R +x ${project.gradlerio.ldLibraryPath}", timeoutSec: project.gradlerio.timeout
 			}
 		}

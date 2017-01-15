@@ -7,7 +7,7 @@ class GetLibrariesTask extends DefaultTask{
 	private file.FileCollection zipFiles = project.files()
 	
 	@tasks.OutputDirectory
-	File libDir = project.file("${temporaryDir.path}")
+	File libDir = project.file("${temporaryDir.path}/lib")
 
 	@tasks.SkipWhenEmpty
 	@tasks.InputFiles

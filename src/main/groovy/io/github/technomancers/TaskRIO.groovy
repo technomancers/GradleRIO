@@ -12,7 +12,12 @@ class TaskRIO {
 	}
 
 	void configureTasks(){
-		def connectTask = _project.task('connect', type: RioTask)
+		def connectTask = _project.task('discover', type: RioTask)
+		connectTask.doLast{
+			project.logger.lifecycle("RoboRIO is hosted at $rioHost")
+		}
+		connectTask.description 'Print the IP Address of the RoboRIO.'
+		connectTask.group 'RoboRIO'
 
 		def killNetConsoleHostTask = _project.task('killNetConsoleHost', type: KillNetConsoleHostTask){
 			ssh connectTask
