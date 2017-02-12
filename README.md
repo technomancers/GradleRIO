@@ -1,4 +1,4 @@
-# GradelRIO
+# GradleRIO
 
 A simple way to build and deploy your code for FRC RoboRIOs. Very simple to use and open source. This was built and tested with FRC WPILib 2016. Will update if changes are needed for 2017.
 
